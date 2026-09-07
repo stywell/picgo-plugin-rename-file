@@ -5,7 +5,7 @@ function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 const pluginConfig = ctx => {
-    let userConfig = ctx.getConfig('picgo-plugin-rename-file');
+    let userConfig = ctx.getConfig('picgo-plugin-rename-file2');
     if (!userConfig) {
         userConfig = {};
     }
@@ -22,7 +22,7 @@ const pluginConfig = ctx => {
 };
 module.exports = (ctx) => {
     const register = () => {
-        ctx.helper.beforeUploadPlugins.register('rename-file', {
+        ctx.helper.beforeUploadPlugins.register('rename-file2', {
             handle: async function (ctx) {
                 // console.log(ctx)
                 const autoRename = ctx.getConfig('settings.autoRename');
@@ -34,7 +34,7 @@ module.exports = (ctx) => {
                     await sleep(10000);
                     throw new Error('rename-file conflict');
                 }
-                const format = ctx.getConfig('picgo-plugin-rename-file.format') || '';
+                const format = ctx.getConfig('picgo-plugin-rename-file2.format') || '';
                 ctx.output = ctx.output.map((item, i) => {
                     let fileName = item.fileName;
                     if (format) {
