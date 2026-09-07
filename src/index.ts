@@ -1,4 +1,4 @@
-import picgo from 'picgo'
+import { PicGo } from 'picgo'
 const path = require('path')
 const crypto = require('crypto')
 
@@ -23,7 +23,7 @@ const pluginConfig = ctx => {
   ]
 }
 
-export = (ctx: picgo) => {
+export = (ctx: PicGo) => {
   const register = () => {
     ctx.helper.beforeUploadPlugins.register('rename-file', {
       handle: async function (ctx) {
