@@ -17,7 +17,7 @@ const pluginConfig = ctx => {
       type: 'input',
       alias: '文件(路径)格式',
       default: userConfig.format || '',
-      message: '例如 fix-dir/{localFolder:2}/{y}/{m}/{d}/{h}-{i}-{s}-{hash}-{origin}-{rand:5}',
+      message: '例如 fix-dir/{localFolder:2}/{y}/{m}/{d}/{h}-{i}-{s}-{hash:8:0}-{origin}-{rand:5}',
       required: false
     }
   ]
@@ -74,18 +74,21 @@ export = (ctx: picgo) => {
                   return crypto.randomBytes(Math.ceil(count / 2)).toString('hex').slice(0, count)
                 }
                })
+              // 文件hash值，支持按起始位置和长度截取
+              .replace(/{hash(?::(\d*))?(?::(\d*))?}/gi, (result, length, start) => {
+                const hash = crypto.createHash('md5')
+                hash.update(item.buffer)
+                const hashString = hash.digest('hex')
+                length = length === undefined || length === '' ? hashString.length : Number(length)
+                start = start === undefined || start === '' ? 0 : Number(start)
+                return hashString.slice(start, start + length)
+              })
               // 字符串替换
-              .replace(/{(hash|origin|\w+)}/gi,(result, key) => {
+              .replace(/{(origin|\w+)}/gi,(result, key) => {
                   // 文件原名
                 if (key === 'origin') {
                   return fileName.substring(0, Math.max(0, fileName.lastIndexOf('.')) || fileName.length)
                       .replace(/[\\\/:<>|"'*?$#&@()\[\]^~]+/g, '-')
-                }
-                  // 文件hash值
-                if (key === 'hash') {
-                  const hash = crypto.createHash('md5')
-                  hash.update(item.buffer)
-                  return hash.digest('hex')
                 }
                 return key
               })
