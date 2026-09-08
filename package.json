@@ -6,7 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://github.com/liuwave/picgo-plugin-super-prefix#readme",
+  "homepage": "https://github.com/stywell/picgo-plugin-rename-file",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p .",
@@ -20,7 +20,7 @@
     "picgo-gui-plugin",
     "picgo-plugin"
   ],
-  "author": "liuwave",
+  "author": "stywell",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.10.1",
